@@ -34,16 +34,23 @@ namespace Entity_Lexicon.Models
                 .WithMany(s => s.StudentCourses)
                 .HasForeignKey(sc => sc.CourseId);
 
-            modelBuilder.Entity<Assignment>()
-                .HasOne<Course>(Assignment => Assignment.Course)
-                .WithMany(Course => Course.Assignments)
-                .HasForeignKey(Assignment => Assignment.Course_Id);
-                //.OnDelete(DeleteBehavior.Cascade);
+            //modelBuilder.Entity<Assignment/*student*/>()
+            //    .HasOne<Course>(Assignment => Assignment.Course)
+            //    .WithMany(Course => Course.Assignments)
+            //    .HasForeignKey(Assignment => Assignment.Course_Id)
+            //    .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Course>()
+                .HasMany<Assignment>(course => course.Assignments)
+                .WithOne(assignment => assignment.Course)
+                .HasForeignKey(assignment => assignment.Course_Id)
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Teacher>()
                 .HasOne<Course>(Teacher => Teacher.Course)
                 .WithOne(Course => Course.Teacher)
-                .HasForeignKey<Teacher>(Course => Course.TeacherId);
+                .HasForeignKey<Course>(Course => Course.Teacher_Id)
+                .OnDelete(DeleteBehavior.Cascade); 
         }
 
         public DbSet<Student> Students { get; set; }

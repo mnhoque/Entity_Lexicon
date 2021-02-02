@@ -11,6 +11,8 @@ namespace Entity_Lexicon.Models
         [Key]
         public int Assign_Id { get; set; }
 
+        //public int Assign_Name { get; set; }
+
         public int Course_Id { get; set; }
 
         public Course Course { get; set; }
